@@ -154,7 +154,6 @@ function calculateStats(){
     for(let i = 0; i <animalArray.length; i++){
         totalFluff += animalArray[i].fluffiness/animalArray.length;
     }
-    console.log(totalFluff);
     return "The average fluffiness of your animals: " + (totalFluff) + " out of " + animalArray.length + " animals";
 }
 //This function will print animals of a given characteristic under the 'list by group' tab
