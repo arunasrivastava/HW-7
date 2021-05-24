@@ -19,12 +19,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     $(document).bind("change", "#select-group", function (event, ui) {
         selectedGroup = $('#select-group').val();
     });
-
+    //button to sort alphabetically on 'list animals'
     document.getElementById("buttonSortName").addEventListener("click", function() {
         animalArray.sort(dynamicSort("name"));
         printAnimalList();
         document.location.href = "index.html#ListAll";
     });
+    //buttons to sort the list on 'list by group'
     document.getElementById("buttonSubsetReptiles").addEventListener("click", function () {
         printAnimalList();
         printAnimalListSubset("Reptile");  // recreate li list after removing one
@@ -40,8 +41,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         printAnimalListSubset("Fish");  // recreate li list after removing one  // go back to movie list 
     });
     document.getElementById("buttonSubsetAmphibians").addEventListener("click", function () {
-       printAnimalListSubset("Amphibian");  // recreate li list after removing one
-          // go back to movie list 
+       printAnimalListSubset("Amphibian");  // recreate li list after removing one 
     });
      document.getElementById("buttonSubsetInsects").addEventListener("click", function () {
         printAnimalListSubset("Insect");  // recreate li list after removing one // go back to movie list 
@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     $(document).on("pagebeforeshow", "#ListAll", function(event) {
         printAnimalList();
     });
-    $(document).on("pagebeforeshow", "#page4", function (event) {   // have to use jQuery 
-        // clear prior data
+    $(document).on("pagebeforeshow", "#page4", function (event) {   
         var divAnimalList = document.getElementById("divAnimalListSubset");
-        while (divAnimalList.firstChild) {    // remove any old data so don't get duplicates
+        while (divAnimalList.firstChild) {    
             divAnimalList.removeChild(divAnimalList.firstChild);
         };
     });
+    //User can click active li and access the details of animal on both pages 
     $(document).on("pagebeforeshow", "#details", function (event) {   
         let localID = document.getElementById("IDparmHere").innerHTML;
         let arrayPointer = GetArrayPointer(localID);
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     
 });
-
+//This animal object takes in given characteristics from user, verifies it, and creates a string 
 function animalObj(name, color,group, fluffiness) {
     this.name = name;
     this.color = color;
@@ -87,9 +87,8 @@ function animalObj(name, color,group, fluffiness) {
       return name + " " + color + " " + group + " fluffiness: " + fluffiness;
     };
 }
-
+  //This function will print the data on the 'list animals' tab by traversing the array of objects and printing them as a string 
   function printAnimalList() {
-        // clear prior data
         var divAnimalList = document.getElementById("divAnimalList");
         while (divAnimalList.firstChild) {    
             divAnimalList.removeChild(divAnimalList.firstChild);
@@ -115,7 +114,12 @@ function animalObj(name, color,group, fluffiness) {
             });
         });
   };
-  
+/**
+ *  https://ourcodeworld.com/articles/read/764/how-to-sort-alphabetically-an-array-of-objects-by-key-in-javascript
+* Function to sort alphabetically an array of objects by some specific key.
+* 
+* @param {String} property Key of the object to sort.
+*/
 function dynamicSort(property) {
     var sortOrder = 1;
 
@@ -132,6 +136,7 @@ function dynamicSort(property) {
         }
     }
 }
+//This will find the location in the array of a given name 
 function GetArrayPointer(localID) {
     for (let i = 0; i < animalArray.length; i++) {
         if (localID === animalArray[i].name) {
@@ -139,7 +144,7 @@ function GetArrayPointer(localID) {
         }
     }
 }
-
+//This function will print animals of a given characteristic under the 'list by group' tab
 function printAnimalListSubset(whichType) {
   
   let divAnimalList = document.getElementById("divAnimalListSubset");
@@ -161,11 +166,8 @@ function printAnimalListSubset(whichType) {
     var liArray = document.getElementsByClassName("oneAnimal");
     Array.from(liArray).forEach(function (element) {
         element.addEventListener('click', function () {
-            // get that data-parm we added for THIS particular li as we loop thru them
-            var parm = this.getAttribute("data-parm");  // passing in the record.Id
-            // get our hidden <p> and write THIS ID value there
+            var parm = this.getAttribute("data-parm"); 
             document.getElementById("IDparmHere").innerHTML = parm;
-            // now jump to our page that will use that one item
             document.location.href = "index.html#details";
         });
     });
