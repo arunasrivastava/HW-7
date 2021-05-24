@@ -17,27 +17,31 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
         
     }
-    // page before show code *************************************************************************
-
-    $(document).on("pagebeforeshow", "#ListAll", function(event) {
-        // have to use jQuery
-        printAnimalList();
-    });
-
     $(document).bind("change", "#select-group", function (event, ui) {
         selectedGroup = $('#select-group').val();
     });
 
-    //end of page before show code *************************************************************************
-
+    $(document).on("pagebeforeshow", "#ListAll", function(event) {
+        printAnimalList();
+    });
+        
+    $(document).on("pagebeforeshow", "#details", function (event) {   
+        let localID = document.getElementById("IDparmHere").innerHTML;
+        let arrayPointer = GetArrayPointer(localID);
+        document.getElementById("oneName").innerHTML = "The Animal: " + animalArray[arrayPointer].name;
+        document.getElementById("oneColor").innerHTML = "Animal Color: " + animalArray[arrayPointer].color;
+        document.getElementById("oneGroup").innerHTML = "Animal Group: " + animalArray[arrayPointer].group;
+        document.getElementById("oneFluffiness").innerHTML = "Fluffiness Rating: " + animalArray[arrayPointer].fluffiness;
+    });
     document.getElementById("buttonSortName").addEventListener("click", function() {
         animalArray.sort(dynamicSort("name"));
         printAnimalList();
         document.location.href = "index.html#ListAll";
-      });
-  
+    });
 
 });
+
+
 function animalObj(name, color,group, fluffiness) {
     this.name = name;
     this.color = color;
@@ -55,19 +59,37 @@ function animalObj(name, color,group, fluffiness) {
     this.getAll = function() {
       return name + " " + color + " " + group + " fluffiness: " + fluffiness;
     };
-  }
+}
 
   function printAnimalList() {
-    let animalList = document.getElementById("myul");
-    animalList.innerHTML="";
-    for (let i = 0; i < animalArray.length; i++) {
-      let li = document.createElement("li");
-      li.innerHTML = animalArray[i].getAll();
-      animalList.appendChild(li);
-    };
+        // clear prior data
+        var divMovieList = document.getElementById("divMovieList");
+        while (divMovieList.firstChild) {    // remove old data to cycle through only newly added data
+            divMovieList.removeChild(divMovieList.firstChild);
+        };
+    
+        var ul = document.createElement('ul');
+    
+        animalArray.forEach(function (element,) {   
+            var li = document.createElement('li');
+            li.classList.add('oneMovie'); 
+            li.setAttribute("data-parm", element.name);
+            li.innerHTML = element.getAll();
+            ul.appendChild(li);
+        });
+        divMovieList.appendChild(ul)
+     
+        var liArray = document.getElementsByClassName("oneMovie");
+        Array.from(liArray).forEach(function (element) {
+            element.addEventListener('click', function () {
+            var parm = this.getAttribute("data-parm"); 
+            document.getElementById("IDparmHere").innerHTML = parm;
+            console.log(parm);
+            document.location.href = "index.html#details";
+            });
+        });
   };
   
-
 /**
  *  https://ourcodeworld.com/articles/read/764/how-to-sort-alphabetically-an-array-of-objects-by-key-in-javascript
 * Function to sort alphabetically an array of objects by some specific key.
@@ -90,7 +112,13 @@ function dynamicSort(property) {
         }
     }
 }
-
+function GetArrayPointer(localID) {
+    for (let i = 0; i < animalArray.length; i++) {
+        if (localID === animalArray[i].name) {
+            return i;
+        }
+    }
+}
 
 
 
