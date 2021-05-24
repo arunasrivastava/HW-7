@@ -50,6 +50,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     $(document).on("pagebeforeshow", "#ListAll", function(event) {
         printAnimalList();
     });
+    document.getElementById("buttonStats").addEventListener("click", function () {
+        document.getElementById("calculateStats").innerHTML = calculateStats();
+     });
+
+
     $(document).on("pagebeforeshow", "#page4", function (event) {   
         var divAnimalList = document.getElementById("divAnimalListSubset");
         while (divAnimalList.firstChild) {    
@@ -143,6 +148,14 @@ function GetArrayPointer(localID) {
             return i;
         }
     }
+}
+function calculateStats(){
+    let totalFluff = 0;
+    for(let i = 0; i <animalArray.length; i++){
+        totalFluff += animalArray[i].fluffiness/animalArray.length;
+    }
+    console.log(totalFluff);
+    return "The average fluffiness of your animals: " + (totalFluff) + " out of " + animalArray.length + " animals";
 }
 //This function will print animals of a given characteristic under the 'list by group' tab
 function printAnimalListSubset(whichType) {
