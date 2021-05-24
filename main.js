@@ -1,4 +1,3 @@
-  
 let animalArray = [];
 
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -21,10 +20,43 @@ document.addEventListener("DOMContentLoaded", function (event) {
         selectedGroup = $('#select-group').val();
     });
 
+    document.getElementById("buttonSortName").addEventListener("click", function() {
+        animalArray.sort(dynamicSort("name"));
+        printAnimalList();
+        document.location.href = "index.html#ListAll";
+    });
+    document.getElementById("buttonSubsetReptiles").addEventListener("click", function () {
+        printAnimalList();
+        printAnimalListSubset("Reptile");  // recreate li list after removing one
+    });
+    document.getElementById("buttonSubsetMammals").addEventListener("click", function () {
+        printAnimalListSubset("Mammal");  // recreate li list after removing one 
+    });
+    document.getElementById("buttonSubsetBirds").addEventListener("click", function () {
+        printAnimalListSubset("Bird");  // recreate li list after removing one
+    });
+    document.getElementById("buttonSubsetFish").addEventListener("click", function () {
+       
+        printAnimalListSubset("Fish");  // recreate li list after removing one  // go back to movie list 
+    });
+    document.getElementById("buttonSubsetAmphibians").addEventListener("click", function () {
+       printAnimalListSubset("Amphibian");  // recreate li list after removing one
+          // go back to movie list 
+    });
+     document.getElementById("buttonSubsetInsects").addEventListener("click", function () {
+        printAnimalListSubset("Insect");  // recreate li list after removing one // go back to movie list 
+    });
+
     $(document).on("pagebeforeshow", "#ListAll", function(event) {
         printAnimalList();
     });
-        
+    $(document).on("pagebeforeshow", "#page4", function (event) {   // have to use jQuery 
+        // clear prior data
+        var divAnimalList = document.getElementById("divAnimalListSubset");
+        while (divAnimalList.firstChild) {    // remove any old data so don't get duplicates
+            divAnimalList.removeChild(divAnimalList.firstChild);
+        };
+    });
     $(document).on("pagebeforeshow", "#details", function (event) {   
         let localID = document.getElementById("IDparmHere").innerHTML;
         let arrayPointer = GetArrayPointer(localID);
@@ -33,14 +65,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
         document.getElementById("oneGroup").innerHTML = "Animal Group: " + animalArray[arrayPointer].group;
         document.getElementById("oneFluffiness").innerHTML = "Fluffiness Rating: " + animalArray[arrayPointer].fluffiness;
     });
-    document.getElementById("buttonSortName").addEventListener("click", function() {
-        animalArray.sort(dynamicSort("name"));
-        printAnimalList();
-        document.location.href = "index.html#ListAll";
-    });
 
+    
 });
-
 
 function animalObj(name, color,group, fluffiness) {
     this.name = name;
@@ -63,39 +90,32 @@ function animalObj(name, color,group, fluffiness) {
 
   function printAnimalList() {
         // clear prior data
-        var divMovieList = document.getElementById("divMovieList");
-        while (divMovieList.firstChild) {    // remove old data to cycle through only newly added data
-            divMovieList.removeChild(divMovieList.firstChild);
+        var divAnimalList = document.getElementById("divAnimalList");
+        while (divAnimalList.firstChild) {    
+            divAnimalList.removeChild(divAnimalList.firstChild);
         };
     
         var ul = document.createElement('ul');
     
         animalArray.forEach(function (element,) {   
             var li = document.createElement('li');
-            li.classList.add('oneMovie'); 
+            li.classList.add('oneAnimal'); 
             li.setAttribute("data-parm", element.name);
             li.innerHTML = element.getAll();
             ul.appendChild(li);
         });
-        divMovieList.appendChild(ul)
+        divAnimalList.appendChild(ul)
      
-        var liArray = document.getElementsByClassName("oneMovie");
+        var liArray = document.getElementsByClassName("oneAnimal");
         Array.from(liArray).forEach(function (element) {
             element.addEventListener('click', function () {
             var parm = this.getAttribute("data-parm"); 
             document.getElementById("IDparmHere").innerHTML = parm;
-            console.log(parm);
             document.location.href = "index.html#details";
             });
         });
   };
   
-/**
- *  https://ourcodeworld.com/articles/read/764/how-to-sort-alphabetically-an-array-of-objects-by-key-in-javascript
-* Function to sort alphabetically an array of objects by some specific key.
-* 
-* @param {String} property Key of the object to sort.
-*/
 function dynamicSort(property) {
     var sortOrder = 1;
 
@@ -120,5 +140,36 @@ function GetArrayPointer(localID) {
     }
 }
 
+function printAnimalListSubset(whichType) {
+  
+  let divAnimalList = document.getElementById("divAnimalListSubset");
+  while (divAnimalList.firstChild) {
+    divAnimalList.removeChild(divAnimalList.firstChild);
+  };
+    
+    let ul = document.createElement('ul');
+    animalArray.forEach(function (element) {
+        if (element.group === whichType) {
+            let li = document.createElement('li');
+            li.classList.add('oneAnimal');
+            li.setAttribute("data-parm", element.name);
+            li.innerHTML = element.name + "  " + element.group;
+            ul.appendChild(li);
+        }
+    });
+    divAnimalList.appendChild(ul)
+    var liArray = document.getElementsByClassName("oneAnimal");
+    Array.from(liArray).forEach(function (element) {
+        element.addEventListener('click', function () {
+            // get that data-parm we added for THIS particular li as we loop thru them
+            var parm = this.getAttribute("data-parm");  // passing in the record.Id
+            // get our hidden <p> and write THIS ID value there
+            document.getElementById("IDparmHere").innerHTML = parm;
+            // now jump to our page that will use that one item
+            document.location.href = "index.html#details";
+        });
+    });
 
+
+};
 

@@ -31,6 +31,7 @@
           <li><a href="#home" >Home Page</a> </li>
           <li><a href="#Load">Add Animal</a></li>
           <li><a href="#ListAll">List Animals</a></li>
+          <li><a href="#page4"> List by Group </a></li>
         </ul>
       </div>
     </div>
@@ -66,6 +67,7 @@
           <li><a href="#home">Home Page</a></li>
           <li><a href="#Load">Add Animal</a></li>
           <li><a href="#ListAll">List Animals</a></li>
+          <li><a href="#page4"> List by Group </a></li>
         </ul>
       </div><!-- /navbar -->
 
@@ -127,6 +129,7 @@
           <li><a href="#home">Home Page</a></li>
           <li><a href="#Load">Add Animal</a></li>
           <li><a href="#ListAll">List Animals</a></li>
+          <li><a href="#page4"> List by Group </a></li>
         </ul>
       </div><!-- /navbar -->
 
@@ -140,7 +143,7 @@
             </ul>
         </div>
       </fieldset>
-      <div id="divMovieList"></div>
+      <div id="divAnimalList"></div>
       <input type="button" value="Sort By Name 🅰️" id="buttonSortName" data-inline="true" />
     </div>
 
@@ -164,6 +167,7 @@
             <li><a href="#home">Home Page</a></li>
             <li><a href="#Load">Add Animal</a></li>
             <li><a href="#ListAll">List Animals</a></li>  
+            <li><a href="#page4"> List by Group </a></li>
         </ul>
       </div><!-- /navbar -->
     </div>
@@ -188,11 +192,47 @@
 
 
 
+  
+
+  
+      <div data-role="page" id="page4">
+  <div data-role="header" data-theme="a">
+      <h1 >My Animals</h1>
+      <img src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/11055/cute-animal-clipart-xl.png" id="elephant"> 
+      <div data-role="navbar" data-theme="b">
+        <ul>
+          <li><a href="#home" >Home Page</a> </li>
+          <li><a href="#Load">Add Animal</a></li>
+          <li><a href="#ListAll">List Animals</a></li>
+          <li><a href="#page4" class = 'active-page'> List by Group </a></li>
+        </ul>
+      </div>
+    </div>
+      
+       <!--   page content -->
+    <div data-role="content" data-theme="e">
+        <p>
+            Click on one of the buttons below to show a specific group!
+        </p>
+       <div id="divAnimalListSubset"></div>
+      <input type="button" value="Show Reptiles" id="buttonSubsetReptiles" data-inline="true" />
+      <input type="button" value="Show Mammals" id="buttonSubsetMammals" data-inline="true" />
+      <input type="button" value="Show Birds" id="buttonSubsetBirds" data-inline="true" />
+      <input type="button" value="Show Fish" id="buttonSubsetFish" data-inline="true" />
+      <input type="button" value="Show Amphibians" id="buttonSubsetAmphibians" data-inline="true" />
+      <input type="button" value="Show Insects" id="buttonSubsetInsects" data-inline="true" />
+    </div>
+    <!--   page footer -->
+    <div data-role="footer" data-theme="a">
+      <h1>By: Aruna Srivastava & Madison Shimkus</h1>
+      <img src="https://i.pinimg.com/originals/f6/54/dd/f654ddc7d844b78e70003ecb393ed589.png" id="heart">
+    </div>
+  </div>
+  <!-- End of  page -->
+  </div>
+
+
   <p id="IDparmHere" hidden>change1</p>  <!--hidden, a place to stash the user ID -->
-
-
-
-
 </body>
 
 </html>
