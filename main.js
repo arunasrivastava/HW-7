@@ -54,6 +54,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         document.getElementById("calculateStats").innerHTML = calculateStats();
      });
 
+     document.getElementById("delete").addEventListener("click", function () {
+        deleteAnimal(document.getElementById("IDparmHere").innerHTML);
+        printAnimalList();  // recreate li list after removing one
+        document.location.href = "index.html#ListAll";  // go back to movie list 
+    });
 
     $(document).on("pagebeforeshow", "#page4", function (event) {   
         var divAnimalList = document.getElementById("divAnimalListSubset");
@@ -186,4 +191,12 @@ function printAnimalListSubset(whichType) {
 
 
 };
+
+//------------------------delete button-------------//
+
+function deleteAnimal(which) {
+    console.log(which);
+    let arrayPointer = GetArrayPointer(which);
+    animalArray.splice(arrayPointer, 1);  // remove 1 element at index 
+}
 
